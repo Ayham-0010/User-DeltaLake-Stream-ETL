@@ -952,7 +952,7 @@ def stream_kafka_to_deltalake(spark, kafka_server):
     write_to_delta(filtered_individual_skill_df, merge_to_delta, individual_skill_path, "individual_skill", "id")
 
     write_to_delta(filtered_organization_df, merge_to_delta, organization_path, "organization", "accountId")
-    write_to_delta(filtered_organization_section_df, merge_to_delta, organization_section_path, "organization_section", "id").awaitTermination()
+    write_to_delta(filtered_organization_section_df, merge_to_delta, organization_section_path, "organization_section", "id")
 
 
 
@@ -969,8 +969,8 @@ def stream_kafka_to_deltalake(spark, kafka_server):
     write_to_delta(filtered_positions_df, merge_to_delta, positions_path, "positions", "id")
     write_to_delta(filtered_professions_df, merge_to_delta, professions_path, "professions", "id")
     write_to_delta(filtered_tags_df, merge_to_delta, tags_path, "tags", "id")
-    write_to_delta(filtered_user_tag_df, merge_to_delta, user_tag_path, "user_tag", "id").awaitTermination()
-    write_to_delta(filtered_universities_df, merge_to_delta, universities_path, "universities", "id").awaitTermination()
+    write_to_delta(filtered_user_tag_df, merge_to_delta, user_tag_path, "user_tag", "id")
+    write_to_delta(filtered_universities_df, merge_to_delta, universities_path, "universities", "id")
     write_to_delta(filtered_states_df, merge_to_delta, states_path, "states", "id")
     write_to_delta(filtered_languages_df, merge_to_delta, languages_path, "languages", "id").awaitTermination()
 
