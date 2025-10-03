@@ -50,4 +50,4 @@ Each entity (e.g., account, organization, tags, etc.) is merged into its corresp
 Deletes and updates are handled via MERGE INTO SQL.<br>
 
 Delta Lake → Analytics<br>
-Delta tables are queryable by downstream consumers<br>
+Delta tables are queryable by downstream denormalization pipeline and other consumers<br>
