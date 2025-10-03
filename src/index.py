@@ -20,7 +20,7 @@ def main():
 
     try:
 
-        kafka_server = "kafka-kafka-bootstrap.data-lab-system:9092"
+        kafka_server = os.environ['KAFKA_BOOTSTRAP_SERVERS']
 
         logger.info("creating spark session")
         spark = (

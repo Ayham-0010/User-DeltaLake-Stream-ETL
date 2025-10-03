@@ -12,7 +12,7 @@ def stream_kafka_to_deltalake(spark, kafka_server):
 
     account_df=read_kafka_topic("postgres.public.account", spark, kafka_server)
     account_type_df=read_kafka_topic("postgres.public.account_type", spark, kafka_server)
-    # location_account_df=read_kafka_topic("postgres.public.location_account", spark, kafka_server)
+    location_account_df=read_kafka_topic("postgres.public.location_account", spark, kafka_server)
     profile_image_df=read_kafka_topic("postgres.public.profile_image", spark, kafka_server)
 
     individual_df=read_kafka_topic("postgres.public.individual", spark, kafka_server)
@@ -24,24 +24,24 @@ def stream_kafka_to_deltalake(spark, kafka_server):
     organization_df = read_kafka_topic("postgres.public.organization", spark, kafka_server)
     organization_section_df = read_kafka_topic("postgres.public.organization_section", spark, kafka_server)
 
-    # businesses_df = read_kafka_topic("postgres.public.primary_businesses", spark, kafka_server)
-    # companies_df = read_kafka_topic("postgres.public.companies", spark, kafka_server)
-    # locations_df = read_kafka_topic("postgres.public.locations", spark, kafka_server)
-    # courses_df = read_kafka_topic("postgres.public.courses", spark, kafka_server)
-    # degrees_df = read_kafka_topic("postgres.public.degrees", spark, kafka_server)
-    # employee_types_df = read_kafka_topic("postgres.public.employee_types", spark, kafka_server)
-    # help_types_df = read_kafka_topic("postgres.public.help_types", spark, kafka_server)
-    # countries_df = read_kafka_topic("postgres.public.countries", spark, kafka_server)
-    # honorifics_df = read_kafka_topic("postgres.public.honorifics", spark, kafka_server)
-    # policies_df = read_kafka_topic("postgres.public.policies", spark, kafka_server)
-    # positions_df = read_kafka_topic("postgres.public.positions", spark, kafka_server)
-    # professions_df = read_kafka_topic("postgres.public.professions", spark, kafka_server)
-    # specializations_df = read_kafka_topic("postgres.public.specializations", spark, kafka_server)
-    # tags_df = read_kafka_topic("postgres.public.tags", spark, kafka_server)
-    # user_tag_df = read_kafka_topic("postgres.public.user_tag", spark, kafka_server)
-    # universities_df = read_kafka_topic("postgres.public.universities", spark, kafka_server)
-    # states_df = read_kafka_topic("postgres.public.states", spark, kafka_server)
-    # languages_df = read_kafka_topic("postgres.public.languages", spark, kafka_server)
+    businesses_df = read_kafka_topic("postgres.public.primary_businesses", spark, kafka_server)
+    companies_df = read_kafka_topic("postgres.public.companies", spark, kafka_server)
+    locations_df = read_kafka_topic("postgres.public.locations", spark, kafka_server)
+    courses_df = read_kafka_topic("postgres.public.courses", spark, kafka_server)
+    degrees_df = read_kafka_topic("postgres.public.degrees", spark, kafka_server)
+    employee_types_df = read_kafka_topic("postgres.public.employee_types", spark, kafka_server)
+    help_types_df = read_kafka_topic("postgres.public.help_types", spark, kafka_server)
+    countries_df = read_kafka_topic("postgres.public.countries", spark, kafka_server)
+    honorifics_df = read_kafka_topic("postgres.public.honorifics", spark, kafka_server)
+    policies_df = read_kafka_topic("postgres.public.policies", spark, kafka_server)
+    positions_df = read_kafka_topic("postgres.public.positions", spark, kafka_server)
+    professions_df = read_kafka_topic("postgres.public.professions", spark, kafka_server)
+    specializations_df = read_kafka_topic("postgres.public.specializations", spark, kafka_server)
+    tags_df = read_kafka_topic("postgres.public.tags", spark, kafka_server)
+    user_tag_df = read_kafka_topic("postgres.public.user_tag", spark, kafka_server)
+    universities_df = read_kafka_topic("postgres.public.universities", spark, kafka_server)
+    states_df = read_kafka_topic("postgres.public.states", spark, kafka_server)
+    languages_df = read_kafka_topic("postgres.public.languages", spark, kafka_server)
 
 
 
@@ -118,36 +118,36 @@ def stream_kafka_to_deltalake(spark, kafka_server):
 
 
 
-    # ## location_account ##
+    ## location_account ##
 
-    # location_account_df_parsed = location_account_df.select(
+    location_account_df_parsed = location_account_df.select(
 
-    #     from_json(col("value").cast("string"), location_account_schema).alias("value"),
+        from_json(col("value").cast("string"), location_account_schema).alias("value"),
 
-    # )
+    )
 
-    # extracted_location_account_df = location_account_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.accountId")).otherwise(col("value.payload.after.accountId")).alias("accountId"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.stateId")).otherwise(col("value.payload.after.stateId")).alias("stateId"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.countryId")).otherwise(col("value.payload.after.countryId")).alias("countryId"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.deletedAt")).otherwise(col("value.payload.after.deletedAt")).alias("deletedAt"),
+    extracted_location_account_df = location_account_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.accountId")).otherwise(col("value.payload.after.accountId")).alias("accountId"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.stateId")).otherwise(col("value.payload.after.stateId")).alias("stateId"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.countryId")).otherwise(col("value.payload.after.countryId")).alias("countryId"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.deletedAt")).otherwise(col("value.payload.after.deletedAt")).alias("deletedAt"),
         
-    #     col("value.payload.op").alias("operationType"),
+        col("value.payload.op").alias("operationType"),
         
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
 
 
-    # filtered_location_account_df = extracted_location_account_df.filter(
-    #     ~(
-    #         isnull(col("accountId")) #&
-    #         # isnull(col("stateId")) &
-    #         # isnull(col("countryId")) &
-    #         # isnull(col("deletedAt"))
-    #     )
-    # )
+    filtered_location_account_df = extracted_location_account_df.filter(
+        ~(
+            isnull(col("accountId")) #&
+            # isnull(col("stateId")) &
+            # isnull(col("countryId")) &
+            # isnull(col("deletedAt"))
+        )
+    )
 
 
 
@@ -447,486 +447,486 @@ def stream_kafka_to_deltalake(spark, kafka_server):
 
 
 
-    # ## businesses ##
+    ## businesses ##
 
-    # businesses_df_parsed = businesses_df.select(
+    businesses_df_parsed = businesses_df.select(
 
-    #     from_json(col("value").cast("string"), businesses_schema).alias("value"),
+        from_json(col("value").cast("string"), businesses_schema).alias("value"),
 
-    # )
+    )
 
-    # extracted_businesses_df = businesses_df_parsed.select(
+    extracted_businesses_df = businesses_df_parsed.select(
         
-    #     col("value.payload.op").alias("operationType"),
+        col("value.payload.op").alias("operationType"),
         
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.createdAt")).otherwise(col("value.payload.after.createdAt")).alias("createdAt"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.createdAt")).otherwise(col("value.payload.after.createdAt")).alias("createdAt"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
         
-
-        
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-    # filtered_businesses_df = extracted_businesses_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
-
-
-
-
-    # ## companies ##
-
-    # companies_df_parsed = companies_df.select(
-
-    #     from_json(col("value").cast("string"), companies_schema).alias("value"),
-
-    # )
-
-    # extracted_companies_df = companies_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.createdAt")).otherwise(col("value.payload.after.createdAt")).alias("createdAt"),
-        
-    #     col("value.payload.op").alias("operationType"),
-        
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-
-    # filtered_companies_df = extracted_companies_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
-
-
-
-
-    # ## locations ##
-
-    # locations_df_parsed = locations_df.select(
-
-    #     from_json(col("value").cast("string"), locations_schema).alias("value"),
-
-    # )
-
-    # extracted_locations_df = locations_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.state_id")).otherwise(col("value.payload.after.state_id")).alias("state_id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.description")).otherwise(col("value.payload.after.description")).alias("description"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.company_id")).otherwise(col("value.payload.after.company_id")).alias("company_id"),
-        
-    #     col("value.payload.op").alias("operationType"),
-        
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-    # filtered_locations_df = extracted_locations_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
-
-
-
-
-
-
-    # ## courses ##
-
-    # courses_df_parsed = courses_df.select(
-
-    #     from_json(col("value").cast("string"), courses_schema).alias("value"),
-
-    # )
-
-    # extracted_courses_df = courses_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-        
-    #     col("value.payload.op").alias("operationType"),
-        
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-
-    # filtered_courses_df = extracted_courses_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
-
-
-
-
-    # ## degrees ##
-
-    # degrees_df_parsed = degrees_df.select(
-
-    #     from_json(col("value").cast("string"), degrees_schema).alias("value"),
-
-    # )
-
-    # extracted_degrees_df = degrees_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-        
-    #     col("value.payload.op").alias("operationType"),
-        
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-    # filtered_degrees_df = extracted_degrees_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
-
-
-    # ## employee_types ##
-
-    # employee_types_df_parsed = employee_types_df.select(
-
-    #     from_json(col("value").cast("string"), employee_types_schema).alias("value"),
-
-    # )
-
-    # extracted_employee_types_df = employee_types_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
-        
-    #     col("value.payload.op").alias("operationType"),
-        
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-
-    # filtered_employee_types_df = extracted_employee_types_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
-
-
-    # ## help_types ##
-
-    # help_types_df_parsed = help_types_df.select(
-
-    #     from_json(col("value").cast("string"), help_types_schema).alias("value"),
-
-    # )
-
-    # extracted_help_types_df = help_types_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.title")).otherwise(col("value.payload.after.title")).alias("title"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.description")).otherwise(col("value.payload.after.description")).alias("description"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.page")).otherwise(col("value.payload.after.page")).alias("page"),
-        
-    #     col("value.payload.op").alias("operationType"),
-        
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-    # filtered_help_types_df = extracted_help_types_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
-
-
-
-
-    # ## countries ##
-
-    # countries_df_parsed = countries_df.select(
-
-    #     from_json(col("value").cast("string"), countries_schema).alias("value"),
-
-    # )
-
-    # extracted_countries_df = countries_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.code")).otherwise(col("value.payload.after.code")).alias("code"),
 
         
-    #     col("value.payload.op").alias("operationType"),
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
+
+    filtered_businesses_df = extracted_businesses_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
+
+
+
+
+    ## companies ##
+
+    companies_df_parsed = companies_df.select(
+
+        from_json(col("value").cast("string"), companies_schema).alias("value"),
+
+    )
+
+    extracted_companies_df = companies_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.createdAt")).otherwise(col("value.payload.after.createdAt")).alias("createdAt"),
         
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-    # filtered_countries_df = extracted_countries_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
+        col("value.payload.op").alias("operationType"),
+        
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
 
 
-    # ## honorifics ##
+    filtered_companies_df = extracted_companies_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
 
-    # honorifics_df_parsed = honorifics_df.select(
 
-    #     from_json(col("value").cast("string"), honorifics_schema).alias("value"),
 
-    # )
 
-    # extracted_honorifics_df = honorifics_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
+    ## locations ##
+
+    locations_df_parsed = locations_df.select(
+
+        from_json(col("value").cast("string"), locations_schema).alias("value"),
+
+    )
+
+    extracted_locations_df = locations_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.state_id")).otherwise(col("value.payload.after.state_id")).alias("state_id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.description")).otherwise(col("value.payload.after.description")).alias("description"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.company_id")).otherwise(col("value.payload.after.company_id")).alias("company_id"),
+        
+        col("value.payload.op").alias("operationType"),
+        
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
+
+    filtered_locations_df = extracted_locations_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
+
+
+
+
+
+
+    ## courses ##
+
+    courses_df_parsed = courses_df.select(
+
+        from_json(col("value").cast("string"), courses_schema).alias("value"),
+
+    )
+
+    extracted_courses_df = courses_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        
+        col("value.payload.op").alias("operationType"),
+        
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
+
+
+    filtered_courses_df = extracted_courses_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
+
+
+
+
+    ## degrees ##
+
+    degrees_df_parsed = degrees_df.select(
+
+        from_json(col("value").cast("string"), degrees_schema).alias("value"),
+
+    )
+
+    extracted_degrees_df = degrees_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        
+        col("value.payload.op").alias("operationType"),
+        
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
+
+    filtered_degrees_df = extracted_degrees_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
+
+
+    ## employee_types ##
+
+    employee_types_df_parsed = employee_types_df.select(
+
+        from_json(col("value").cast("string"), employee_types_schema).alias("value"),
+
+    )
+
+    extracted_employee_types_df = employee_types_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
+        
+        col("value.payload.op").alias("operationType"),
+        
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
+
+
+    filtered_employee_types_df = extracted_employee_types_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
+
+
+    ## help_types ##
+
+    help_types_df_parsed = help_types_df.select(
+
+        from_json(col("value").cast("string"), help_types_schema).alias("value"),
+
+    )
+
+    extracted_help_types_df = help_types_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.title")).otherwise(col("value.payload.after.title")).alias("title"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.description")).otherwise(col("value.payload.after.description")).alias("description"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.page")).otherwise(col("value.payload.after.page")).alias("page"),
+        
+        col("value.payload.op").alias("operationType"),
+        
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
+
+    filtered_help_types_df = extracted_help_types_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
+
+
+
+
+    ## countries ##
+
+    countries_df_parsed = countries_df.select(
+
+        from_json(col("value").cast("string"), countries_schema).alias("value"),
+
+    )
+
+    extracted_countries_df = countries_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.code")).otherwise(col("value.payload.after.code")).alias("code"),
 
         
-    #     col("value.payload.op").alias("operationType"),
+        col("value.payload.op").alias("operationType"),
         
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
 
-    # filtered_honorifics_df = extracted_honorifics_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
-
-
+    filtered_countries_df = extracted_countries_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
 
 
-    # ## positions ##
+    ## honorifics ##
 
-    # positions_df_parsed = positions_df.select(
+    honorifics_df_parsed = honorifics_df.select(
 
-    #     from_json(col("value").cast("string"), positions_schema).alias("value"),
+        from_json(col("value").cast("string"), honorifics_schema).alias("value"),
 
-    # )
+    )
 
-    # extracted_positions_df = positions_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
+    extracted_honorifics_df = honorifics_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
+
         
-    #     col("value.payload.op").alias("operationType"),
+        col("value.payload.op").alias("operationType"),
         
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
 
-    # filtered_positions_df = extracted_positions_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
-
-
+    filtered_honorifics_df = extracted_honorifics_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
 
 
-    # ## professions ##
 
-    # professions_df_parsed = professions_df.select(
 
-    #     from_json(col("value").cast("string"), professions_schema).alias("value"),
+    ## positions ##
 
-    # )
+    positions_df_parsed = positions_df.select(
 
-    # extracted_professions_df = professions_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
+        from_json(col("value").cast("string"), positions_schema).alias("value"),
+
+    )
+
+    extracted_positions_df = positions_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
         
-    #     col("value.payload.op").alias("operationType"),
+        col("value.payload.op").alias("operationType"),
         
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
+
+    filtered_positions_df = extracted_positions_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
 
 
-    # filtered_professions_df = extracted_professions_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
 
 
+    ## professions ##
 
+    professions_df_parsed = professions_df.select(
 
-    # ## tags ##
+        from_json(col("value").cast("string"), professions_schema).alias("value"),
 
-    # tags_df_parsed = tags_df.select(
+    )
 
-    #     from_json(col("value").cast("string"), tags_schema).alias("value"),
-
-    # )
-
-    # extracted_tags_df = tags_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.count")).otherwise(col("value.payload.after.count")).alias("count"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.deleted_at")).otherwise(col("value.payload.after.deleted_at")).alias("deleted_at"),
+    extracted_professions_df = professions_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
         
-    #     col("value.payload.op").alias("operationType"),
+        col("value.payload.op").alias("operationType"),
         
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-    # filtered_tags_df = extracted_tags_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
 
 
+    filtered_professions_df = extracted_professions_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
 
-    # ## user_tag ##
 
-    # user_tag_df_parsed = user_tag_df.select(
 
-    #     from_json(col("value").cast("string"), user_tag_schema).alias("value"),
 
-    # )
+    ## tags ##
 
-    # extracted_user_tag_df = user_tag_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.account_id")).otherwise(col("value.payload.after.account_id")).alias("account_id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.tag_id")).otherwise(col("value.payload.after.tag_id")).alias("tag_id"),
+    tags_df_parsed = tags_df.select(
+
+        from_json(col("value").cast("string"), tags_schema).alias("value"),
+
+    )
+
+    extracted_tags_df = tags_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.count")).otherwise(col("value.payload.after.count")).alias("count"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.deleted_at")).otherwise(col("value.payload.after.deleted_at")).alias("deleted_at"),
         
-    #     col("value.payload.op").alias("operationType"),
+        col("value.payload.op").alias("operationType"),
         
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
+
+    filtered_tags_df = extracted_tags_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
 
 
-    # filtered_user_tag_df = extracted_user_tag_df.filter(
-    #     ~(
-    #         isnull(col("account_id"))&
-    #         isnull(col("tag_id"))
-    #     )
-    # )
 
+    ## user_tag ##
 
-    # ## universities ##
+    user_tag_df_parsed = user_tag_df.select(
 
-    # universities_df_parsed = universities_df.select(
+        from_json(col("value").cast("string"), user_tag_schema).alias("value"),
 
-    #     from_json(col("value").cast("string"), universities_schema).alias("value"),
+    )
 
-    # )
-
-    # extracted_universities_df = universities_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
+    extracted_user_tag_df = user_tag_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.account_id")).otherwise(col("value.payload.after.account_id")).alias("account_id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.tag_id")).otherwise(col("value.payload.after.tag_id")).alias("tag_id"),
         
-    #     col("value.payload.op").alias("operationType"),
+        col("value.payload.op").alias("operationType"),
         
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-    # filtered_universities_df = extracted_universities_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
 
 
-    # ## states ##
+    filtered_user_tag_df = extracted_user_tag_df.filter(
+        ~(
+            isnull(col("account_id"))&
+            isnull(col("tag_id"))
+        )
+    )
 
-    # states_df_parsed = states_df.select(
 
-    #     from_json(col("value").cast("string"), states_schema).alias("value"),
+    ## universities ##
 
-    # )
+    universities_df_parsed = universities_df.select(
 
-    # extracted_states_df = states_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.country_id")).otherwise(col("value.payload.after.country_id")).alias("country_id"),
+        from_json(col("value").cast("string"), universities_schema).alias("value"),
 
-    #     col("value.payload.op").alias("operationType"),
+    )
+
+    extracted_universities_df = universities_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
         
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
-
-    # filtered_states_df = extracted_states_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
-
-
-    # ## languages ##
-
-    # languages_df_parsed = languages_df.select(
-
-    #     from_json(col("value").cast("string"), languages_schema).alias("value"),
-
-    # )
-
-    # extracted_languages_df = languages_df_parsed.select(
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
-    #     when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
-
-    #     col("value.payload.op").alias("operationType"),
+        col("value.payload.op").alias("operationType"),
         
-    #     col("value.payload.source.table").alias("table_name"),
-    #     col("value.payload.source.db").alias("database_name"),
-    #     col("value.payload.source.schema").alias("schema_name"),
-    # )
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
 
-    # filtered_languages_df = extracted_languages_df.filter(
-    #     ~(
-    #         isnull(col("id"))
-    #     )
-    # )
+    filtered_universities_df = extracted_universities_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
+
+
+    ## states ##
+
+    states_df_parsed = states_df.select(
+
+        from_json(col("value").cast("string"), states_schema).alias("value"),
+
+    )
+
+    extracted_states_df = states_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.country_id")).otherwise(col("value.payload.after.country_id")).alias("country_id"),
+
+        col("value.payload.op").alias("operationType"),
+        
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
+
+    filtered_states_df = extracted_states_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
+
+
+    ## languages ##
+
+    languages_df_parsed = languages_df.select(
+
+        from_json(col("value").cast("string"), languages_schema).alias("value"),
+
+    )
+
+    extracted_languages_df = languages_df_parsed.select(
+        when(col("value.payload.op") == 'd', col("value.payload.before.id")).otherwise(col("value.payload.after.id")).alias("id"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.name")).otherwise(col("value.payload.after.name")).alias("name"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.status")).otherwise(col("value.payload.after.status")).alias("status"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.created_at")).otherwise(col("value.payload.after.created_at")).alias("created_at"),
+        when(col("value.payload.op") == 'd', col("value.payload.before.updated_at")).otherwise(col("value.payload.after.updated_at")).alias("updated_at"),
+
+        col("value.payload.op").alias("operationType"),
+        
+        col("value.payload.source.table").alias("table_name"),
+        col("value.payload.source.db").alias("database_name"),
+        col("value.payload.source.schema").alias("schema_name"),
+    )
+
+    filtered_languages_df = extracted_languages_df.filter(
+        ~(
+            isnull(col("id"))
+        )
+    )
 
 
 #
@@ -935,8 +935,8 @@ def stream_kafka_to_deltalake(spark, kafka_server):
    
    
    
-    # write_to_delta(filtered_location_account_df, merge_to_delta, location_account_path, "location_account", "accountId")
-    # write_to_delta(filtered_profile_image_df, merge_to_delta, profile_image_path, "profile_image", "accountId")
+    write_to_delta(filtered_location_account_df, merge_to_delta, location_account_path, "location_account", "accountId")
+    write_to_delta(filtered_profile_image_df, merge_to_delta, profile_image_path, "profile_image", "accountId")
 
 
 
@@ -956,23 +956,23 @@ def stream_kafka_to_deltalake(spark, kafka_server):
 
 
 
-    # write_to_delta(filtered_businesses_df, merge_to_delta, businesses_path, "businesses", "id")
-    # write_to_delta(filtered_companies_df, merge_to_delta, companies_path, "companies", "id")
-    # write_to_delta(filtered_locations_df, merge_to_delta, locations_path, "locations", "id")
-    # write_to_delta(filtered_courses_df, merge_to_delta, courses_path, "courses", "id")
-    # write_to_delta(filtered_degrees_df, merge_to_delta, degrees_path, "degrees", "id")
+    write_to_delta(filtered_businesses_df, merge_to_delta, businesses_path, "businesses", "id")
+    write_to_delta(filtered_companies_df, merge_to_delta, companies_path, "companies", "id")
+    write_to_delta(filtered_locations_df, merge_to_delta, locations_path, "locations", "id")
+    write_to_delta(filtered_courses_df, merge_to_delta, courses_path, "courses", "id")
+    write_to_delta(filtered_degrees_df, merge_to_delta, degrees_path, "degrees", "id")
 
-    # # write_to_delta(filtered_employee_types_df, merge_to_delta, employee_types_path, "employee_types", "id")
-    # # write_to_delta(filtered_help_types_df, merge_to_delta, help_types_path, "help_types", "id")
-    # # write_to_delta(filtered_countries_df, merge_to_delta, countries_path, "countries", "id")
-    # # write_to_delta(filtered_honorifics_df, merge_to_delta, honorifics_path, "honorifics", "id")
-    # write_to_delta(filtered_positions_df, merge_to_delta, positions_path, "positions", "id")
-    # write_to_delta(filtered_professions_df, merge_to_delta, professions_path, "professions", "id")
-    # write_to_delta(filtered_tags_df, merge_to_delta, tags_path, "tags", "id")
-    # # write_to_delta(filtered_user_tag_df, merge_to_delta, user_tag_path, "user_tag", "id").awaitTermination()
-    # write_to_delta(filtered_universities_df, merge_to_delta, universities_path, "universities", "id").awaitTermination()
-    # # write_to_delta(filtered_states_df, merge_to_delta, states_path, "states", "id")
-    # # write_to_delta(filtered_languages_df, merge_to_delta, languages_path, "languages", "id").awaitTermination()
+    write_to_delta(filtered_employee_types_df, merge_to_delta, employee_types_path, "employee_types", "id")
+    write_to_delta(filtered_help_types_df, merge_to_delta, help_types_path, "help_types", "id")
+    write_to_delta(filtered_countries_df, merge_to_delta, countries_path, "countries", "id")
+    write_to_delta(filtered_honorifics_df, merge_to_delta, honorifics_path, "honorifics", "id")
+    write_to_delta(filtered_positions_df, merge_to_delta, positions_path, "positions", "id")
+    write_to_delta(filtered_professions_df, merge_to_delta, professions_path, "professions", "id")
+    write_to_delta(filtered_tags_df, merge_to_delta, tags_path, "tags", "id")
+    write_to_delta(filtered_user_tag_df, merge_to_delta, user_tag_path, "user_tag", "id").awaitTermination()
+    write_to_delta(filtered_universities_df, merge_to_delta, universities_path, "universities", "id").awaitTermination()
+    write_to_delta(filtered_states_df, merge_to_delta, states_path, "states", "id")
+    write_to_delta(filtered_languages_df, merge_to_delta, languages_path, "languages", "id").awaitTermination()
 
 
 
