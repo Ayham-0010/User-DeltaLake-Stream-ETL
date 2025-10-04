@@ -33,19 +33,9 @@ Delta tables are queryable by downstream denormalization pipeline and other cons
 
 ### Tech Stack ###
 
-Programming Language: Python (PySpark)
-
-Frameworks & Tools:
-
+Python – Threading – concurrency & batch synchronization
 Apache Spark (Structured Streaming)<br>
 Apache Kafka<br>
 Delta Lake<br>
 Debezium (for CDC events)<br>
-
-Storage:
-
-AWS S3 (Delta Tables stored in object storage)<br>
-
-Logging: 
-
-Python logging module
+S3/Cloud Object Storage – durable and scalable table storage
