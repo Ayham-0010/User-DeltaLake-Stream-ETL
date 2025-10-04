@@ -8,11 +8,25 @@ The pipeline streams CRUD operations from a PostgreSQL database (captured via De
 
 ### Key Features ###
 
-Real-Time Ingestion: Streams PostgreSQL CDC events from Kafka into Delta Lake.<br>
-Schema-Driven Parsing: Structured parsing of Debezium CDC payloads using PySpark schemas.<br>
-Delta Lake MERGE Logic: Ensures inserts, updates, and deletes are reflected correctly.<br>
-Scalable & Fault-Tolerant: Uses Spark checkpointing for exactly-once guarantees.<br>
-Modular Design: Configurable paths, schemas, and Kafka topics for multiple entities.<br>
+* Real-Time Ingestion:
+  
+Streams PostgreSQL CDC events from Kafka into Delta Lake.
+
+* Schema-Driven Parsing:
+
+Structured parsing of Debezium CDC payloads using PySpark schemas.
+
+* Delta Lake MERGE Logic:
+
+Ensures inserts, updates, and deletes are reflected correctly.
+
+* Scalable & Fault-Tolerant:
+
+Uses Spark checkpointing for exactly-once guarantees.
+
+* Modular Design:
+
+Configurable paths, schemas, and Kafka topics for multiple entities.
 
 ### Data Flow ###
 
