@@ -38,4 +38,4 @@ Apache Spark (Structured Streaming)<br>
 Apache Kafka<br>
 Delta Lake<br>
 Debezium (for CDC events)<br>
-S3/Cloud Object Storage – durable and scalable table storage
+S3/Cloud Object Storage
