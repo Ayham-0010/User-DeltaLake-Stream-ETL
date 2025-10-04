@@ -16,6 +16,23 @@ Delta Lake MERGE Logic: Ensures inserts, updates, and deletes are reflected corr
 Scalable & Fault-Tolerant: Uses Spark checkpointing for exactly-once guarantees.<br>
 Modular Design: Configurable paths, schemas, and Kafka topics for multiple entities.<br>
 
+### Data Flow ###
+
+Debezium → Kafka<br>
+PostgreSQL CDC events are published to Kafka topics.<br>
+
+Kafka → Spark Structured Streaming<br>
+Spark consumes raw CDC JSON messages from Kafka.<br>
+Messages are parsed into structured DataFrames with schemas.<br>
+
+Spark → Delta Lake<br>
+Each entity (e.g., account, organization, tags, etc.) is merged into its corresponding Delta table.<br>
+Deletes and updates are handled via MERGE INTO SQL.<br>
+
+Delta Lake → Analytics<br>
+Delta tables are queryable by downstream denormalization pipeline and other consumers<br>
+
+
 ### Tech Stack ###
 
 Programming Language: Python (PySpark)
@@ -34,20 +51,3 @@ AWS S3 (Delta Tables stored in object storage)<br>
 Logging: 
 
 Python logging module
-
-
-### Data Flow ###
-
-Debezium → Kafka<br>
-PostgreSQL CDC events are published to Kafka topics.<br>
-
-Kafka → Spark Structured Streaming<br>
-Spark consumes raw CDC JSON messages from Kafka.<br>
-Messages are parsed into structured DataFrames with schemas.<br>
-
-Spark → Delta Lake<br>
-Each entity (e.g., account, organization, tags, etc.) is merged into its corresponding Delta table.<br>
-Deletes and updates are handled via MERGE INTO SQL.<br>
-
-Delta Lake → Analytics<br>
-Delta tables are queryable by downstream denormalization pipeline and other consumers<br>
