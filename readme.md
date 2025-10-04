@@ -33,7 +33,7 @@ Delta tables are queryable by downstream denormalization pipeline and other cons
 
 ### Tech Stack ###
 
-Python ,Pyspark
+Python ,Pyspark<br>
 Apache Spark (Structured Streaming)<br>
 Apache Kafka<br>
 Delta Lake<br>
