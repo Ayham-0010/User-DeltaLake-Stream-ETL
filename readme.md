@@ -1,7 +1,5 @@
 ### User-DeltaLake-Stream-ETL ###
 
-### Project Overview ###
-
 This project implements a real-time Change Data Capture (CDC) pipeline using:
 
 Apache Kafka as the event streaming backbone<br>
